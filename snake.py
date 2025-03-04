@@ -101,7 +101,7 @@ class Food:
         if self.rect.x == -25:
             self.rect.left = random.choice(self.allposx)
             self.rect.top = random.choice(self.allposy)
-            print(self.rect)
+            # print(self.rect)
 
 
 def show_text(
@@ -155,9 +155,13 @@ def main():
     screen_size = (SCREEN_X, SCREEN_Y)
     screen = pygame.display.set_mode(screen_size)
     pygame.display.set_caption("Snake")
+    icon = pygame.image.load("icon.jpg")  # 替换为你的图标文件路径
+    pygame.display.set_icon(icon)  # 设置窗口图标
     clock = pygame.time.Clock()
     scores = 0
     isdead = False
+
+    elapsed_time = 0
 
     # 蛇/食物
     snake = Snake()
@@ -167,6 +171,11 @@ def main():
 
     while True:
         for event in pygame.event.get():
+            # fps = clock.get_fps()  # 获取当前帧数
+            # print(f"FPS: {fps}")  # 打印帧数
+
+            # pygame.display.flip()  # 更新屏幕
+
             if event.type == pygame.QUIT:
                 pygame.display.quit()
                 pygame.quit()  # 不加这一行，idle中窗口无法退出
@@ -230,7 +239,14 @@ def main():
         pygame.draw.rect(screen, (136, 0, 21), food.rect, 0)
 
         # 显示分数文字
-        show_text(screen, 1 / 10, 29 / 40, "Scores: " + str(scores), (223, 223, 223),font_size=45)
+        show_text(
+            screen,
+            1 / 10,
+            29 / 40,
+            "Scores: " + str(scores),
+            (223, 223, 223),
+            font_size=45,
+        )
         show_text(
             screen,
             1 / 10,
@@ -239,7 +255,8 @@ def main():
             (223, 223, 223),
             font_size=45,
         )
-        elapsed_time = time.time() - start_time
+        if not isdead:
+            elapsed_time = time.time() - start_time
         show_text(
             screen,
             1 / 10,
@@ -261,7 +278,7 @@ def main():
         )
 
         pygame.display.update()
-        clock.tick(60)  # 限制帧数为60 FPS
+        clock.tick(80)  # 限制帧数为60 FPS
 
 
 if __name__ == "__main__":
