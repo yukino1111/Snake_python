@@ -4,7 +4,7 @@ import random
 import time
 
 # 全局定义
-SCREEN_X = 1200
+SCREEN_X = 600
 SCREEN_Y = 700
 
 
@@ -18,7 +18,7 @@ class Snake(object):
         for x in range(5):
             self.addnode()
         self.last_move_time = 0  # 上次移动的时间
-        self.move_interval = 0.1  # 移动间隔，单位秒 (调整这个值来控制蛇的速度)
+        self.move_interval = 1  # 移动间隔，单位秒 (调整这个值来控制蛇的速度)
         self.next_direction = None  # 存储下一次移动的方向
 
     # 无论何时 都在前端增加蛇块
@@ -65,8 +65,6 @@ class Snake(object):
             self.addnode()
             self.delnode()
             self.last_move_time = current_time
-            return True  # 移动成功
-        return False  # 移动失败
 
     # 改变方向 但是左右、上下不能被逆向改变
     def changedirection(self, curkey):
@@ -86,22 +84,19 @@ class Snake(object):
 class Food:
     def __init__(self):
         self.rect = pygame.Rect(-25, 0, 25, 25)
-        self.allposx = []
-        self.allposy = []
-        # 不靠墙太近 25 ~ SCREEN_X-25 之间
-        for pos in range(25, SCREEN_X - 25, 25):
-            self.allposx.append(pos)
-        for pos in range(25, SCREEN_Y - 25, 25):
-            self.allposy.append(pos)
 
     def remove(self):
         self.rect.x = -25
 
     def set(self):
         if self.rect.x == -25:
-            self.rect.left = random.choice(self.allposx)
-            self.rect.top = random.choice(self.allposy)
-            # print(self.rect)
+            allpos = []
+            # 不靠墙太近 25 ~ SCREEN_X-25 之间
+            for pos in range(25, SCREEN_X - 25, 25):
+                allpos.append(pos)
+            self.rect.left = random.choice(allpos)
+            self.rect.top = random.choice(allpos)
+            print(self.rect)
 
 
 def show_text(
@@ -113,12 +108,10 @@ def show_text(
     font_bold=False,
     font_size=60,
     font_italic=False,
-    centered_y=False,
 ):
     # 获取系统字体，并设置文字大小
     # cur_font = pygame.font.SysFont("宋体", font_size)
     cur_font = pygame.font.Font("PingFang-Medium.ttf", font_size)
-
     # 设置是否加粗属性
     cur_font.set_bold(font_bold)
     # 设置是否斜体属性
@@ -131,21 +124,21 @@ def show_text(
     pos_x = int(SCREEN_X * pos_x_ratio)
     pos_y = int(SCREEN_Y * pos_y_ratio)
 
-    if centered_y:
-        pos_x = pos_x - text_rect.width // 2
+    # 水平居中
+    pos_x = pos_x - text_rect.width // 2
 
     screen.blit(text_fmt, (pos_x, pos_y))
 
 
 def get_direction_name(direction):
     if direction == pygame.K_LEFT:
-        return "←"
+        return "Left"
     elif direction == pygame.K_RIGHT:
-        return "→"
+        return "Right"
     elif direction == pygame.K_UP:
-        return "↑"
+        return "Up"
     elif direction == pygame.K_DOWN:
-        return "↓"
+        return "Down"
     else:
         return "None"
 
@@ -155,30 +148,18 @@ def main():
     screen_size = (SCREEN_X, SCREEN_Y)
     screen = pygame.display.set_mode(screen_size)
     pygame.display.set_caption("Snake")
-    icon = pygame.image.load("icon_32x32.jpg")  # 替换为你的图标文件路径
-    pygame.display.set_icon(icon)  # 设置窗口图标
     clock = pygame.time.Clock()
     scores = 0
     isdead = False
-
-    elapsed_time = 0
 
     # 蛇/食物
     snake = Snake()
     food = Food()
     last_direction_input = None  # 存储上次有效的方向输入
-    start_time = time.time()
 
     while True:
         for event in pygame.event.get():
-            # fps = clock.get_fps()  # 获取当前帧数
-            # print(f"FPS: {fps}")  # 打印帧数
-
-            # pygame.display.flip()  # 更新屏幕
-
             if event.type == pygame.QUIT:
-                pygame.display.quit()
-                pygame.quit()  # 不加这一行，idle中窗口无法退出
                 sys.exit()
             if event.type == pygame.KEYDOWN:
                 LR = [pygame.K_LEFT, pygame.K_RIGHT]
@@ -195,10 +176,8 @@ def main():
 
         # 画蛇身 / 每一步+1分
         if not isdead:
-            # scores += random.randint(1001, 10000)
-            if snake.move():  # 如果蛇成功移动
-                scores += 1
-
+            scores += 1
+            snake.move()
         for rect in snake.body:
             pygame.draw.rect(screen, (20, 220, 39), rect, 0)
 
@@ -214,7 +193,6 @@ def main():
                 False,
                 100,
                 False,
-                True,
             )
             show_text(
                 screen,
@@ -225,7 +203,6 @@ def main():
                 False,
                 30,
                 False,
-                True,
             )
 
         # 食物处理 / 吃到+50分
@@ -241,47 +218,26 @@ def main():
 
         # 显示分数文字
         show_text(
-            screen,
-            1 / 10,
-            29 / 40,
-            "Scores: " + str(scores),
-            (223, 223, 223),
-            font_size=45,
-        )
+            screen, 1 / 2, 5 / 7, "Scores: " + str(scores), (223, 223, 223)
+        )  # 居中
         show_text(
-            screen,
-            1 / 10,
-            32 / 40,
-            "ming的Scores: " + str(scores),
-            (223, 223, 223),
-            font_size=45,
-        )
-        if not isdead:
-            elapsed_time = time.time() - start_time
-        show_text(
-            screen,
-            1 / 10,
-            35 / 40,
-            "时间: " + str(int(elapsed_time)),
-            (223, 223, 223),
-            font_size=45,
-        )
+            screen, 1 / 2, 6 / 7, "ming的Scores: " + str(scores), (223, 223, 223)
+        )  # 居中
 
         # 显示上次方向输入
         direction_name = get_direction_name(last_direction_input)
         show_text(
             screen,
-            8 / 10,
-            1 / 10,
-            "按键记录: " + direction_name,
+            1 / 2,
+            1 / 7,
+            "Last Direction: " + direction_name,
             (0, 0, 0),
             font_size=30,
         )
 
         pygame.display.update()
-        clock.tick(80)  # 限制帧数为60 FPS
+        clock.tick(120)  # 限制帧数为60 FPS
 
 
 if __name__ == "__main__":
     main()
-
