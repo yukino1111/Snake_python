@@ -7,6 +7,8 @@ import time
 SCREEN_X = 1200
 SCREEN_Y = 700
 
+FRAMERATE = 80
+
 
 # 蛇类
 # 点以25为单位
@@ -279,9 +281,8 @@ def main():
         )
 
         pygame.display.update()
-        clock.tick(80)  # 限制帧数为60 FPS
+        clock.tick(FRAMERATE)
 
 
 if __name__ == "__main__":
     main()
-
