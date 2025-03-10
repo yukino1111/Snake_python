@@ -7,45 +7,6 @@ SCREEN_X = config.SCREEN_X
 SCREEN_Y = config.SCREEN_Y
 
 
-def show_leaderboard(screen):
-    """显示排行榜."""
-    scores = scores_rank.load_scores()
-    # 使用 lambda 表达式对分数进行排序
-    sorted_scores = sorted(scores, key=lambda item: item[1], reverse=True)
-    top_5_scores = sorted_scores[:5]
-    screen.fill((255, 255, 255))  # 清空屏幕
-    show_text(
-        screen,
-        0.5,
-        0.1,
-        "排行榜",
-        (0, 0, 0),
-        font_size_ratio=0.1,
-        x_align="center",
-        y_align="center",
-        SCREEN_X=SCREEN_X,
-        SCREEN_Y=SCREEN_Y,
-    )
-    # 使用 enumerate 和 zip 显示排行榜
-    for i, (rank, (name, score)) in enumerate(
-        zip(range(1, len(top_5_scores) + 1), top_5_scores)
-    ):
-        text = f"{rank}. {name}: {score}"
-        y_pos = 0.2 + i * 0.1  # 调整垂直位置
-        show_text(
-            screen,
-            0.5,
-            y_pos,
-            text,
-            (0, 0, 0),
-            font_size_ratio=0.05,
-            x_align="center",
-            y_align="center",
-            SCREEN_X=SCREEN_X,
-            SCREEN_Y=SCREEN_Y,
-        )
-
-
 def dead_texts(screen):
     show_text(
         screen,
@@ -108,7 +69,7 @@ def show_leaderboard(screen):
         show_text(
             screen,
             0.1,
-            0.125 + (i+1) * 0.04,
+            0.125 + (i + 1) * 0.04,
             text,
             (0, 0, 0),
             font_size_ratio=0.03,
@@ -126,7 +87,7 @@ def running_texts(screen, scores, player_name, elapsed_time, direction_name):
         screen,
         0.1,  # 左侧 10% 的位置
         0.725,  # 底部 27.5% 的位置
-        "Max Score: " + str(scores),
+        f"Max Score: {scores}",
         (223, 223, 223),
         font_size_ratio=0.05,  # 字体大小为屏幕高度的 3.75%
         x_align="left",
