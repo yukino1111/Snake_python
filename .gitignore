@@ -3,3 +3,4 @@ hw/
 .VSCodeCounter/
 src/__pycache__/
 Snake_python.code-workspace
+assets/scores.txt
