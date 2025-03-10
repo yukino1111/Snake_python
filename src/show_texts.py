@@ -64,7 +64,7 @@ def show_leaderboard(screen):
     for i, (rank, (name, score)) in enumerate(
         zip(range(1, len(top_5_scores) + 1), top_5_scores)
     ):
-        text = f"{rank}. {name}: {score}"
+        text = f"第{rank}名 {name}: {score}"
         # y = y_pos + i * line_height  # 计算每行的 y 坐标
         show_text(
             screen,
@@ -82,12 +82,12 @@ def show_leaderboard(screen):
     # pygame.display.update()
 
 
-def running_texts(screen, scores, player_name, elapsed_time, direction_name):
+def running_texts(screen, scores, max_score, player_name, elapsed_time, direction_name):
     show_text(
         screen,
         0.1,  # 左侧 10% 的位置
         0.725,  # 底部 27.5% 的位置
-        f"Max Score: {scores}",
+        f"Max Score: {max_score}",
         (223, 223, 223),
         font_size_ratio=0.05,  # 字体大小为屏幕高度的 3.75%
         x_align="left",

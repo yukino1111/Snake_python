@@ -28,6 +28,7 @@ def main():
 
     elapsed_time = 0
 
+    file_score = scores_rank.get_max_score()
     # 蛇/食物
     snake = Snake()
     food = Food(SCREEN_X, SCREEN_Y)
@@ -109,8 +110,12 @@ def main():
         if not isdead:
             elapsed_time = time.time() - start_time
             direction_name = snake.get_direction_name(last_direction_input)
+
+        max_score = scores
+        if max_score < file_score:
+            max_score = file_score
         show_texts.running_texts(
-            screen, scores, player_name, elapsed_time, direction_name
+            screen, scores, max_score, player_name, elapsed_time, direction_name
         )
 
         pygame.display.update()
