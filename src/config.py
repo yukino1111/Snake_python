@@ -1,0 +1,20 @@
+SCREEN_X = 1200
+SCREEN_Y = 700
+
+MOVE_INTERVAL = 0.1
+SPEED_FACTOR = 2
+
+SPEEDUP_INTERVAL = 3
+POWERUP_MOVE_INTERVAL = 7
+
+NORMAL_SCORE = 50
+POWERUP_SCORE = 1000
+
+FRAMERATE = 1 / MOVE_INTERVAL * 10
+
+BLOCK_SIZE = 25
+
+FONT_PATH = "assets/fonts/PingFang-Medium.ttf"
+ICON_PATH = "assets/icons/icon_32x32.jpg"
+SCORE_PATH = "assets/scores.txt"
+PROGRAM_NAME = "Snake"

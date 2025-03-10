@@ -1,5 +1,4 @@
-hw1/
-hw2/
+hw/
 .idea/
+src/__pycache__/
 Snake_python.code-workspace
-test.py
