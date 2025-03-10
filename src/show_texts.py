@@ -82,9 +82,9 @@ def show_leaderboard(screen):
     top_5_scores = sorted_scores[:5]
 
     # 屏幕左上角起始位置
-    x_pos = 0.1 * SCREEN_X  # 屏幕宽度的 10%
-    y_pos = 0.1 * SCREEN_Y  # 屏幕高度的 10%
-    line_height = 0.05 * SCREEN_Y  # 每行的高度
+    # x_pos = 0.1 * SCREEN_X  # 屏幕宽度的 10%
+    # y_pos = 0.1 * SCREEN_Y  # 屏幕高度的 10%
+    # line_height = 0.05 * SCREEN_Y  # 每行的高度
 
     show_text(
         screen,
@@ -104,11 +104,11 @@ def show_leaderboard(screen):
         zip(range(1, len(top_5_scores) + 1), top_5_scores)
     ):
         text = f"{rank}. {name}: {score}"
-        y = y_pos + i * line_height  # 计算每行的 y 坐标
+        # y = y_pos + i * line_height  # 计算每行的 y 坐标
         show_text(
             screen,
             0.1,
-            0.15 + i * 0.05,
+            0.125 + (i+1) * 0.04,
             text,
             (0, 0, 0),
             font_size_ratio=0.03,

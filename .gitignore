@@ -1,4 +1,5 @@
 hw/
 .idea/
+.VSCodeCounter/
 src/__pycache__/
 Snake_python.code-workspace

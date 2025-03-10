@@ -1,4 +1,5 @@
 import config
+import os  # 导入 os 模块，用于文件操作
 
 
 def load_scores():
@@ -10,7 +11,7 @@ def load_scores():
                 name, score = line.strip().split(":")
                 scores.append((name, int(score)))
     except FileNotFoundError:
-        print("分数文件未找到，创建一个新的。")
+        open(config.SCORE_PATH, "w").close()
     return scores
 
 
