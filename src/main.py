@@ -176,7 +176,7 @@ def main():
                     if food.rect == snake.body[0]:
                         scores += food.score_increase
                         food.remove()
-                        snake.addnode()
+                        snake.addnode(0)
 
                     food.set()
                     pygame.draw.rect(screen, (136, 0, 21), food.rect, 0)
@@ -187,7 +187,7 @@ def main():
 
                     if power_up.rect == snake.body[0]:
                         scores += power_up.score_increase
-                        snake.addnode()
+                        snake.addnode(0)
                         snake.change_speed()
                         power_up.set(snake.body)
                         power_up.reset_move_time()

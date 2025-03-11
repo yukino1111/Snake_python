@@ -8,21 +8,23 @@ SPEED_FACTOR = config.SPEED_FACTOR
 
 BLOCK_SIZE = config.BLOCK_SIZE
 
+
 class Snake(object):
     # 初始化各种需要的属性 [开始时默认向右/身体块x5]
     def __init__(self):
         self.dirction = pygame.K_RIGHT
         self.body = []
-        for x in range(5):
-            self.addnode()
+        # for x in range(1):
+        self.count = 0
         self.last_move_time = 0  # 上次移动的时间
         self.move_interval = (
             MOVE_INTERVAL  # 移动间隔，单位秒 (调整这个值来控制蛇的速度)
         )
+        self.addnode()
         self.next_direction = None  # 存储下一次移动的方向
 
     # 无论何时 都在前端增加蛇块
-    def addnode(self):
+    def addnode(self,mark=-1):
         left, top = (0, 0)
         if self.body:
             left, top = (self.body[0].left, self.body[0].top)
@@ -36,6 +38,9 @@ class Snake(object):
         elif self.dirction == pygame.K_DOWN:
             node.top += BLOCK_SIZE
         self.body.insert(0, node)
+        # if mark==0:
+        #     self.count += 1
+        #     self.move_interval += 0.02
         # print(f"snake pos: " + node)
 
     # 删除最后一个块
@@ -56,6 +61,8 @@ class Snake(object):
 
     # 移动！
     def move(self, food_position=None):
+        # print(self.move_interval)
+        # print(self.count)
         current_time = time.time()
         if current_time - self.last_move_time >= self.move_interval:
             # 1. 确定移动方向
@@ -67,7 +74,7 @@ class Snake(object):
                 self.next_direction = None  # 清空待定方向
             # 如果启用了作弊模式，则计算最佳方向
             elif food_position:
-                new_direction = cheat.find_path(self,food_position)
+                new_direction = cheat.find_path(self, food_position)
 
             # 2. 移动蛇
             if new_direction:
@@ -107,4 +114,5 @@ class Snake(object):
         self.move_interval /= SPEED_FACTOR
 
     def recover_speed(self):
+        # self.move_interval = MOVE_INTERVAL + 0.02 * self.count
         self.move_interval = MOVE_INTERVAL
