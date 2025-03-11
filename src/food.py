@@ -22,4 +22,4 @@ class Food:
         if self.rect.x == -BLOCK_SIZE:
             self.rect.left = random.choice(self.allposx)
             self.rect.top = random.choice(self.allposy)
-            # print(self.rect)
+            # print(f"food pos: "+self.rect)

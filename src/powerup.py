@@ -26,8 +26,11 @@ class PowerUp:
             self.set(snake_body)  # 移动 PowerUp
             self.last_move_time = current_time
 
-    def reset_move_time(self):
-        self.last_move_time = time.time()
+    def reset_move_time(self,total_pause_time=-1):
+        if total_pause_time != -1:
+            self.last_move_time += total_pause_time
+        else:
+            self.last_move_time = time.time()
 
     def draw(self, screen):
         pygame.draw.rect(screen, (255, 255, 0), self.rect, 0)  # 黄色

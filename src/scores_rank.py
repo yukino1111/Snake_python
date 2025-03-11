@@ -32,3 +32,16 @@ def get_max_score():
     except FileNotFoundError:
         max_score = -1  # 文件不存在
     return max_score
+
+
+def get_leaderboard():
+    scores = load_scores()
+    scores.sort(key=lambda x: x[1], reverse=True)
+    return scores
+
+
+def get_leaderboard():
+    """获取排行榜数据，按照分数从高到低排序，并只返回前 10 名."""
+    scores = load_scores()
+    scores.sort(key=lambda x: x[1], reverse=True)
+    return scores[:10]  # 只返回前 10 名

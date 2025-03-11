@@ -10,11 +10,13 @@ POWERUP_MOVE_INTERVAL = 7
 NORMAL_SCORE = 50
 POWERUP_SCORE = 1000
 
-FRAMERATE = 1 / MOVE_INTERVAL * 10
+# FRAMERATE = 1 / MOVE_INTERVAL * 10
+FRAMERATE = 100
 
 BLOCK_SIZE = 25
 
 FONT_PATH = "assets/fonts/PingFang-Medium.ttf"
 ICON_PATH = "assets/icons/icon_32x32.jpg"
+MD_PATH = "assets/about.md"
 SCORE_PATH = "assets/scores.txt"
 PROGRAM_NAME = "Snake"

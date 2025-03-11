@@ -1,7 +1,7 @@
 import pygame
 import time
-
 import config
+import cheat
 
 MOVE_INTERVAL = config.MOVE_INTERVAL
 SPEED_FACTOR = config.SPEED_FACTOR
@@ -36,6 +36,7 @@ class Snake(object):
         elif self.dirction == pygame.K_DOWN:
             node.top += BLOCK_SIZE
         self.body.insert(0, node)
+        # print(f"snake pos: " + node)
 
     # 删除最后一个块
     def delnode(self):
@@ -54,16 +55,27 @@ class Snake(object):
         return False
 
     # 移动！
-    def move(self):
+    def move(self, food_position=None):
         current_time = time.time()
         if current_time - self.last_move_time >= self.move_interval:
+            # 1. 确定移动方向
+            new_direction = None
+
             # 如果有待定的方向，则使用它
             if self.next_direction is not None:
-                self.changedirection(self.next_direction)
+                new_direction = self.next_direction
                 self.next_direction = None  # 清空待定方向
+            # 如果启用了作弊模式，则计算最佳方向
+            elif food_position:
+                new_direction = cheat.find_path(self,food_position)
 
-            self.addnode()
-            self.delnode()
+            # 2. 移动蛇
+            if new_direction:
+                self.changedirection(new_direction)  # 改变蛇的方向
+            self.addnode()  # 增加蛇的节点
+            self.delnode()  # 删除蛇的节点
+
+            # 3. 更新时间
             self.last_move_time = current_time
             return True  # 移动成功
         return False  # 移动失败
