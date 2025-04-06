@@ -306,15 +306,18 @@ class LeaderboardMenu(Interface):
         self.back_button_rect = None
 
     def run(self, scores):
+        for i, (name, score) in enumerate(scores[:10]):  # 显示前10名
+            zipped_data = [(name, score)]
+        score_values1 = map(lambda item: item[1], scores)
         while self.running:
             self.screen.fill(self.bg_color)
 
             # 显示排行榜标题
             self.draw_text("排行榜", self.text_color, 0.5, 0.15, font_size_ratio=0.08)
-
             # 显示排行榜数据
             y_offset = 0.3  # 初始偏移量
             for i, (name, score) in enumerate(scores[:10]):  # 显示前10名
+
                 text = f"第{i + 1}名 {name}: {score}"
                 self.draw_text(
                     text,
@@ -345,6 +348,8 @@ class LeaderboardMenu(Interface):
                     return "mainmenu"  # 返回主菜单
 
             pygame.display.flip()
+        print(zipped_data)
+        print(max(score_values1))
 
 
 class AboutMenu(Interface):
